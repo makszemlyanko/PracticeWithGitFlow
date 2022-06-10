@@ -9,7 +9,7 @@ import UIKit
 
 class AppsPageController: BaseListController, UICollectionViewDelegateFlowLayout {
     
-    let cellId = "id"
+    let cellId = "cellId"
     
     let headerId = "headerId"
     
@@ -21,6 +21,19 @@ class AppsPageController: BaseListController, UICollectionViewDelegateFlowLayout
         collectionView.register(AppsGroupCell.self, forCellWithReuseIdentifier: cellId)
         
         collectionView.register(AppsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        
+        fetchData()
+    }
+    
+    fileprivate func fetchData() {
+        print("Fethcing new JSON Data somehow...")
+        Service.shared.fetchTopFreeApps { (appGroup, err) in
+            if let err = err {
+                print("Failed to fetch top free apps: ", err)
+                return
+            }
+            print(appGroup?.feed.result)
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
